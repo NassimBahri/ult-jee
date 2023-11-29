@@ -1,10 +1,7 @@
 package com.example.etudiants.servlets;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import com.example.etudiants.config.DB;
@@ -58,16 +55,19 @@ public class PersonneServlet extends HttpServlet {
                 && niveau != null && !niveau.equals("")
         ){
             Personne personne = new Personne(nom, prenom, niveau);
-            int r = personne.save(this.statement);
+            int r = personne.save(this.connexion);
             if(r == 1){
-                out.println("Bravo.");
+                response.sendRedirect("/Etudiants_war_exploded/?ajoutok");
             }
             else{
                 out.println("Erreur!");
             }
         }
         else{
-            out.println("Erreur! Veuillez remplir tous les champs.");
+            String message = "<div style='color:red;'>Erreur! Veuillez remplir tous les champs.</div>";
+            RequestDispatcher dispatcher = request.getRequestDispatcher("create.jsp");
+            request.setAttribute("message", message);
+            dispatcher.include(request, response);
         }
     }
 

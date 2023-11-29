@@ -8,6 +8,13 @@
 </head>
 <body>
     <h1>Liste des personnes</h1>
+
+    <%
+        if(request.getParameter("ajoutok") != null){
+            out.println("<div style='color:green'>Bravo! Ajout avec succès.</div>");
+        }
+    %>
+
     <h3>Nombre de personnes : <%= ((ArrayList<Personne>)request.getAttribute("personnes")).size() %></h3>
     <table border="1">
         <tr>

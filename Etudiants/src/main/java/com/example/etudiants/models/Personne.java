@@ -1,8 +1,6 @@
 package com.example.etudiants.models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Personne {
@@ -60,7 +58,7 @@ public class Personne {
     public Personne(){}
 
     public static ArrayList<Personne> getListePersonnes(Statement statement){
-        String sql = "SELECT * FROM personnes";
+        String sql = "SELECT * FROM personnes ORDER BY id DESC";
         ArrayList<Personne> personnes;
         try {
             ResultSet resultat = statement.executeQuery(sql);
@@ -79,12 +77,15 @@ public class Personne {
         return personnes;
     }
 
-    public int save(Statement statement){
-        String sql  = "INSERT INTO personnes(nom, prenom, niveau) " +
-                "VALUES ('"+this.nom+"', '"+this.prenom+"', '"+this.niveaux+"')";
+    public int save(Connection connexion){
+        String sql  = "INSERT INTO personnes(nom, prenom, niveau) VALUES (?, ?, ?)";
         int resultat = 0;
         try{
-            resultat = statement.executeUpdate(sql);
+            PreparedStatement statement = connexion.prepareStatement(sql);
+            statement.setString(1, this.nom);
+            statement.setString(2, this.prenom);
+            statement.setString(3, this.niveaux);
+            resultat = statement.executeUpdate();
         }
         catch(SQLException e){
             e.printStackTrace();

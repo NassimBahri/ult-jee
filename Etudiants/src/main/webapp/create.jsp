@@ -6,10 +6,17 @@
 </head>
 <body>
     <h1>Ajouter une personne</h1>
-    <form action="/" method="post" name="ajouter">
+
+    <%
+    if(request.getAttribute("message") != null){
+        out.println(request.getAttribute("message"));
+    }
+    %>
+
+    <form action="/Etudiants_war_exploded/" method="post" name="ajouter">
         <p>
             <label for="nom">Nom</label>
-            <input type="text" id="nom">
+            <input type="text" id="nom" name="nom">
         </p>
         <p>
             <label for="prenom">Prénom</label>
