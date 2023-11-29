@@ -78,4 +78,17 @@ public class Personne {
         }
         return personnes;
     }
+
+    public int save(Statement statement){
+        String sql  = "INSERT INTO personnes(nom, prenom, niveau) " +
+                "VALUES ('"+this.nom+"', '"+this.prenom+"', '"+this.niveaux+"')";
+        int resultat = 0;
+        try{
+            resultat = statement.executeUpdate(sql);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return resultat;
+    }
 }

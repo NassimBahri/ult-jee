@@ -46,6 +46,31 @@ public class PersonneServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nom = request.getParameter("nom");
+        String prenom = request.getParameter("prenom");
+        String niveau = request.getParameter("niveau");
+        PrintWriter out = response.getWriter();
+        if(
+                nom != null && !nom.equals("")
+                && prenom != null && !prenom.equals("")
+                && niveau != null && !niveau.equals("")
+        ){
+            Personne personne = new Personne(nom, prenom, niveau);
+            int r = personne.save(this.statement);
+            if(r == 1){
+                out.println("Bravo.");
+            }
+            else{
+                out.println("Erreur!");
+            }
+        }
+        else{
+            out.println("Erreur! Veuillez remplir tous les champs.");
+        }
+    }
+
     /**
      * Détruire la servlet / Libérer les ressources
      */
